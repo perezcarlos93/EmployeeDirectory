@@ -8,17 +8,16 @@ import Alert from '../components/Alert';
 class Search extends Component {
 	state = {
 		search: '',
-		name: [],
+		SearchResult: [],
 		results: [],
-		error: '',
 	};
 
 	// When the component mounts, get a list of all available employees and update state
 	componentDidMount() {
 		API.getDirectory()
 			.then((res) => {
+				// console.log('directory: ' + JSON.stringify(res.data));
 				this.setState({ results: res.data });
-				console.log(res.data);
 			})
 			.catch((err) => console.log(err));
 	}
@@ -29,14 +28,27 @@ class Search extends Component {
 
 	handleFormSubmit = (event) => {
 		event.preventDefault();
-		API.getDirectory(this.state.search)
-			.then((res) => {
-				if (res.data.status === 'error') {
-					throw new Error(res.data.message);
+		function setSearchResults() {
+			let directory = this.state.results.results;
+			let userSearch = this.state.search;
+			const directoryByName = [];
+
+			for (let i = 0; i > directory.length; i++) {
+				let fullName = directory[i].name.first + directory[i].name.last;
+				if (fullName === userSearch) {
+					fullName.push(directoryByName);
 				}
-				this.setState({ results: res.data.message, error: '' });
-			})
-			.catch((err) => this.setState({ error: err.message }));
+			}
+			return directoryByName;
+		}
+		setSearchResults();
+		// }
+		// 		API.getByName(this.state.search, this.state.results);
+		// 		.then((res) => {
+		// 			console.log('employee by name: ' + res);
+		// 			this.setState({ results: res.data.message });
+		// 		})
+		// 		.catch((err) => console.log(err));
 	};
 	render() {
 		return (
@@ -49,11 +61,11 @@ class Search extends Component {
 					>
 						{this.state.error}
 					</Alert>
-					{/* <SearchForm
+					<SearchForm
 						handleFormSubmit={this.handleFormSubmit}
 						handleInputChange={this.handleInputChange}
 						name={this.state.name}
-					/> */}
+					/>
 					<SearchResults results={this.state.results} />
 				</Container>
 			</div>

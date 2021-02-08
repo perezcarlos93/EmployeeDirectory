@@ -1,0 +1,11 @@
+{
+    "gender": "male",
+    "name":
+    {
+        "title":"Mr",
+        "first":"Josh",
+        "last":"Zirkzee"
+    },
+    "email":"josh.zirkzee@example.com",
+    "phone":"(472)-362-8904"
+}

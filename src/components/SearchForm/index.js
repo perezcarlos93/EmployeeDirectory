@@ -15,7 +15,6 @@ function SearchForm(props) {
 					type="text"
 					className="form-control"
 					placeholder="Type in employee's name"
-					id=""
 				/>
 				<datalist id="">{props.name}</datalist>
 				<button
